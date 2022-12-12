@@ -87,7 +87,7 @@ INTENTS = [
 class PredictIntent(Resource):
     def get(self, order):
         # use parser and find the user's query
-        print(order)
+
 
         # vectorize the user's query and make a prediction
         tokenized = tokenizer([str(order)], padding='max_length', truncation=True, max_length=20)
@@ -95,7 +95,7 @@ class PredictIntent(Resource):
             tokenized[key] = torch.tensor(value)
 
         s = torch.nn.functional.softmax(model(tokenized, None )).detach().numpy()[0]
-        print(s)
+
         
         index = np.argsort(s)[-5:][::-1]
         prob = s[index]
@@ -104,8 +104,6 @@ class PredictIntent(Resource):
         # Serialization if want to display np array
         #numpyData = {"array": numpyArrayOne}
         #encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)
-        print(prob)
-        print(intent)
         # create JSON object
         output = {
                 'prediction': str(intent[0]), 
