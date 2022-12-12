@@ -122,4 +122,4 @@ api.add_resource(PredictIntent, '/PredictIntent/<string:order>')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
