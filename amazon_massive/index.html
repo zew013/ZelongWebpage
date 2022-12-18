@@ -44,7 +44,7 @@
 						  <div class="form-inline" id="frm">
 						<div class="form-group mx-sm-3 mb-2">
 							<label for="yourcommand" class="sr-only">Your Command</label>
-							  <input type="text" style="width:500px" class="form-control form-control-md input-command" id="yourcommand" required  placeholder="e.g. what's the time in Ponyville?" >
+							  <input type="text" style="width:500px" class="form-control form-control-md input-command" id="yourcommand" required  placeholder="e.g. what's the time in Ponyville??" >
 							 <button  class="btn btn-primary " onclick='fillItem()'  >Predict</button>
 							</div>
 
@@ -168,7 +168,7 @@
 							dataType: "json",
 							crossDomain: true,
 							//api url with parameter
-							url: "http://zelong-wang-private.herokuapp.com/PredictIntent/" + prodictedCommand,
+							url: "https://zelong-wang-private.herokuapp.com/PredictIntent/" + prodictedCommand,
 							success: function(data){
 								console.log(data);	
 								let predictedElement = document.getElementById('sectionPredicted');
@@ -199,29 +199,7 @@
 						
 					  }
 					  //get dataframe from api
-					  $.ajax({
-							type:"GET",
-							dataType: "json",
-							data:{},
-							//url: "http://127.0.0.1:5000/data/", //original call to route
-							url: "http://127.0.0.1:5000/api",
-							crossDomain: true,
-							success: function(data){
-								//console.log(data);
-								var parsedJson = $.parseJSON(data);
-								$.each(parsedJson,function(index,value){ 
-								   console.log( value.sale);
-								});
-								//
-								$("#tbodyid").empty();
-								var rows = [];
-								$.each(parsedJson,function(index,value) {
-									rows.push('<tr><td>'+value.budget+'</td><td>'+value.sale+'</td></tr>');
-								});
-								$('table').append(rows.join(''));
-							
-							}
-						})
+
 
 				}
 
