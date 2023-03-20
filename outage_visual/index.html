@@ -1,0 +1,165 @@
+<html>  
+<head>  
+<script type="text/javascript" src="app.js"></script>  
+
+<link rel="stylesheet" type="text/css" href="libs/bootstrap/css/bootstrap.min.css">
+
+<link rel="stylesheet" type="text/css" href="styles.css">
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+
+
+</head>
+<body onload=assignment9()> 
+<button onclick="topPosition()" id="plot1-button" title="Go to plot1" style="opacity:0.8">Outage Frequency Choropleth</button>
+<button onclick="plot2Position()" id="plot2-button" title="Go to plot2" style="opacity:0.2">Population Affected Streamgraph</button>
+<button onclick="plot3Position()" id="plot3-button" title="Go to plot3" style="opacity:0.2">Duration-Price Scatterplot</button>
+<button onclick="plot4Position()" id="plot4-button" title="Go to plot4" style="opacity:0.2">Duration-Region Boxplot</button>
+
+    <div class="container">
+        <h1>The Power of a Nation</h1>
+            <h2>An observation of the power outages from the years 2000 to 2016 and related socioeconomic status.</h2>
+            <p> The following visualization is based on data from <b>https://doi.org/10.1016/j.dib.2018.06.067</b></p> 
+        
+
+        <div class="row">
+
+            <div class="col-md-9" id="mapVis"></div>
+            <div class="col-md-3">
+                <br>
+                <br>
+                <br>
+                <p> Since the year 2000, numerous states across the United States have been experiencing increasingly frequent power outages, with particularly severe occurrences observed in the West Coast, Southwest, and Great Lakes regions.</p>
+                <p> At the same time, it has been observed that the regions experiencing the most severe power outage issues also report a significant increase in electricity prices, exacerbating the impact of power outages on the affected population.</p>
+            </div>
+            <div id="inner_plot"></div>
+        </div>
+
+        <div class="row">
+            <div class="slider-wrapper">
+                <div class="slider" id="yearSlider">
+                    <input type="range" min="2000" max="2015" value="2000" oninput="rangeValue.innerText = this.value">
+                    <p id="rangeValue">2000</p>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+
+        <div class="row">
+            <div class="col-md-9">
+                <div id="stream">
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <p> The number of people affected by power outages in each region experienced a significant increase in 2002 and continued to affect a considerable portion of the population over the subsequent 12 years. However, by 2015, measures might have been implemented to bring these outages under control.  </p>
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-9">
+                <div id="scatter">
+                    <div id="radio_part3" class="center_plot">
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <input type="radio" id="log" name="transformation" value="sqrt" checked="checked">
+                        <label for="log">Sqrt</label>
+                        &nbsp; &nbsp; &nbsp; &nbsp; 
+                        <input type="radio" id="original" name="transformation" value="original">
+                        <label for="original">Original</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <p> Given the varying socioeconomic statuses and infrastructure development levels of different regions, it is reasonable to expect that some regions may be better equipped to recover from power outages more quickly. However, due to the limitations of this project, such as time constraints and data availability, we will examine electricity prices as a potential proxy for these underlying factors, which are likely to be positively correlated with electricity prices. </p>
+            </div>
+        </div>
+
+        
+
+        <br>
+        <br>
+        <br>
+        <br>
+        
+        <div class="row">
+            <div class="col-md-9">
+                <div id="box">
+                </div>
+                
+            </div>
+           
+            <div class="col-md-3">
+                <br>
+                <br>
+                <br>
+
+                <p> Although the impact of climate region on power outage duration appears to be relatively insignificant, this finding is somewhat counterintuitive. To better understand the underlying factors at play, more detailed data may be necessary to explore the potential impact of more specific sub-categories. </p>
+            </div>
+            <div id="tooltip-box"></div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <div class="row">
+            <div class="col-md-9">
+                <h3>Outage Frequency Choropleth</h3>
+                    <p>Choice of color scheme: Intuitively, I use yellow to represent electricity or power, where the higher the luminance, the healthier the power system, and the dimmer the color for more outages.</p>
+                    <p>Marks and channels: Areas serve as the mark, while color and luminance are used as channels.</p>
+                    <p>Other design considerations: When hovering over a state, it would turn blue to allow readers to clearly identify the area. Blue was chosen to conform to the background color scheme. The legend would be highlighted when the selected state has a corresponding value, and the actual count would appear under the legend.</p>
+                <h3>Electricity Price Barplot (Inner)</h3>
+                    <p>Choice of color scheme: As this is an inner plot shown when hovering over the choropleth, it is not as important as the main visualization. To reduce the number of colors and contrast with the choropleth, I use a color similar to the background font with some opacity.</p>
+                    <p>Marks and channels: Lines serve as marks, while length is used as the channel.</p>
+                    
+                <h3>Population Affected Streamgraph</h3>
+                    <p>Choice of color scheme: Since each color represents a distinct region, I compared different categorical color schemes and selected the most comfortable one.</p>
+                    <p>Marks and channels: Areas serve as the marks, while color hue is used as the channel.</p>
+                    <p>Other design considerations: The y-axis is intentionally removed because the actual number is not the emphasis. The goal is to show the smooth change of population across the years, which is already obvious by looking at the area. When hovering, the selected region would be highlighted, and its legend is shown.</p>
+                    
+                <h3>Duration-Price Scatterplot</h3>
+                    <p>Choice of color scheme: I used a color scheme that is the most compatible with the background. When switching between Original and Sqrt transition, it's like falling stars in the sky.</p>
+                    <p>Marks and channels: Points serve as the marks, while positions are used as channels.</p>
+                    <p>Other design considerations: I provided two options for transition, Original and Sqrt, to allow readers to view the relation in different perspectives.</p>
+                
+                <h3>Duration-Climate Boxplot</h3>
+                    <p>Choice of color scheme: Since the outage duration is continuous, I used a sequential color scheme, d3.interpolateInferno. The data is skewed to the right, so it is aesthetically reasonable to give brighter colors to the sparse part as a highlight of the outliers.</p>
+                    <p>Marks and channels: Points and lines serve as marks, while positions and length are used as channels.</p>
+                    <p>Other design considerations: I combined two different marks in the boxplot to provide more information about the distribution. Only a few x-axis ticks are shown to keep the screen clean. If interested, the reader could hover over a specific point to get the exact value.</p>
+                    
+            </div>
+           
+            <div class="col-md-3">
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    
+    
+
+  
+   
+</body>  
+</html>  
