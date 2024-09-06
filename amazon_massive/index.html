@@ -35,7 +35,15 @@
 
     	<div class="archive">
 			<h2 class="page__title">Intro</h2>
-			<p>Last update: unknown. <strong> The model is for intention classification of the texts accepted by smart devices. It contains 60 categories of intention. Examples can be found on <a href = "https://huggingface.co/datasets/mteb/amazon_massive_intent/viewer/en/train"> Huggingface </a> The model is using Bert + NN + Knowledge Distillation + BiLSTM deployed on Heroku. It's just for my own exploration, so the models are not tuned at all. Before Knowledge Distillation, the model achieved an accuracy of around 0.84. After that, the model still remained an accuracy of around 0.79 😄</strong></p>
+			<p>Last update: unknown. <strong> The model is for intention classification of the texts accepted by smart devices. It contains 60 categories of intention. Examples can be found on <a href = "https://huggingface.co/datasets/mteb/amazon_massive_intent/viewer/en/train"> Huggingface </a> The model is using Bert + NN + Knowledge Distillation + BiLSTM deployed on Heroku. It's just for my own exploration, so the models are not deliberately tuned. Before Knowledge Distillation, the model achieved an accuracy of around 0.84. After that, the model still remained an accuracy of around 0.79 😄</strong></p>
+			<h2> Learning</h2>
+			<p> •	Used BERT as encoder and a Neural Network as the decoder to classify text intentions. </p>
+
+			<p>	•	Self-studied Knowledge Distillation. Used the trained BERT-NN as the teacher model and BiLSTM as the student model to compress the model size from over 439MB to 70MB while maintaining a similar accuracy level. </p>
+				
+			<p> •	Deployed the compressed model on my own webpage using Flask-RESTful, Amazon S3, and Heroku.</p>	
+				
+
 		</div>
 
             <div class="container position-relative">
