@@ -36,12 +36,19 @@
     	<div class="archive">
 			<h2 class="page__title">Intro</h2>
 			<p>Last update: unknown. <strong> The model is for intention classification of the texts accepted by smart devices. It contains 60 categories of intention. Examples can be found on <a href = "https://huggingface.co/datasets/mteb/amazon_massive_intent/viewer/en/train"> Huggingface </a> The model is using Bert + NN + Knowledge Distillation + BiLSTM deployed on Heroku. It's just for my own exploration, so the models are not deliberately tuned. Before Knowledge Distillation, the model achieved an accuracy of around 0.84. After that, the model still remained an accuracy of around 0.79 😄. <a href="https://github.com/zew013/amazon_massive_app_model"> GitHub Link</a></strong></p>
+			<p><strong>I then converted model to ONNX (Open Neural Network Exchange) format and leveraged ONNX Runtime to accelerate inference speed by 6x, reducing time per call from 0.026 to 0.0043 seconds</p>
+			<p>Then I deployed the compressed model on Heroku server, using Gunicorn and Flask-RESTful for the app backend, with the
+				model stored on Amazon S3.</strong></p>
 			<h2> Learning</h2>
-			<p> •	Used BERT as encoder and a Neural Network as the decoder to classify text intentions. </p>
+			<h6>Deep Learning and Natural Language Processing:</h4>
+			<p> •	Used BERT as the encoder and a Neural Network as the decoder to classify text intentions. </p>
 
-			<p>	•	Self-studied Knowledge Distillation. Used the trained BERT-NN as the teacher model and BiLSTM as the student model to compress the model size from over 439MB to 70MB while maintaining a similar accuracy level. </p>
-				
-			<p> •	Deployed the compressed model on my own webpage using Flask-RESTful, Amazon S3, and Heroku.</p>	
+			<p>	•	Self-studied Knowledge Distillation. Used the trained BERT-NN as the teacher model and BiLSTM as the student model
+				to compress the model size from 439MB to 70MB while preserving comparable accuracy. </p>
+			<h6>Model Integration and Application Development:</h4>
+			<p> •	Leveraged ONNX Runtime to accelerate inference speed by 6x, reducing time per call from 0.026 to 0.0043 seconds.</p>
+			<p> •	Deployed the compressed model on Heroku server, using Gunicorn and Flask-RESTful for the app backend, with the
+				model stored on Amazon S3.</p>	
 				
 
 		</div>
@@ -60,7 +67,7 @@
 							  <input type="text" style="width:500px" class="form-control form-control-md input-command" id="yourcommand" required  placeholder="e.g. what's the time in Ponyville??" >
 							 <button  class="btn btn-primary " onclick='fillItem()'  >Predict</button>
 							</div>
-							<p><br>(For the first time, it usually takes a few seconds to invoke the API) UPDATE: Deprecated because Heroku stops providing free Dyno resources</p>
+							<p><br><b>UPDATE:</b> Deprecated because Heroku stops providing free Dyno resources, <b>but here is a video demonstration of the app</b></p>
 							  
 						</div>
                     </div>
@@ -181,7 +188,8 @@
 							dataType: "json",
 							crossDomain: true,
 							//api url with parameter
-							url: "https://zelong-wang-private.herokuapp.com/PredictIntent/" + prodictedCommand,
+							// url: "https://zelong-wang-private.herokuapp.com/PredictIntent/" + prodictedCommand,
+							url: "http://127.0.0.1:5001/PredictIntent/" + prodictedCommand,
 							success: function(data){
 								console.log(data);	
 								let predictedElement = document.getElementById('sectionPredicted');
